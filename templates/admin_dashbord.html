@@ -1,0 +1,100 @@
+{% raw %}
+<!-- templates/admin_dashboard.html -->
+{% extends "base.html" %}
+<!-- Наследуем структуру базового шаблона base.html -->
+
+{% block title %}Панель администратора{% endblock %}
+<!-- Переопределяем заголовок страницы -->
+
+{% block content %}
+    <!-- Основной контент панели администратора -->
+    <h1>Панель управления администратора</h1> <!-- Заголовок панели -->
+    <!-- Приветствие с именем администратора -->
+    <p>Добро пожаловать, <strong>{{ current_user.full_name }}</strong>!</p>
+    <!-- Информационный блок с текущим дедлайном для ВКР -->
+    <div class="info-box"><strong>Текущий дедлайн для ВКР:</strong> <strong>{{ vkr_deadline }}</strong>.</div>
+    <hr>
+
+    <!-- Секция для импорта пользователей -->
+    <h2>Импорт пользователей</h2>
+    <div class="admin-actions">
+        <!-- Форма для загрузки студентов -->
+        <div class="form-container admin-form">
+            <h3>Загрузить студентов</h3>
+            <!-- Форма для загрузки файла со студентами -->
+            <form action="/admin/upload/students" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="token" value="{{ token }}"> <!-- Скрытое поле для JWT-токена -->
+                <div class="form-group">
+                    <label for="students-file">Файл .xlsx или .csv:</label> <!-- Поле для выбора файла -->
+                    <input type="file" id="students-file" name="file" accept=".xlsx, .csv" required> <!-- Поле загрузки файла -->
+                </div>
+                <button type="submit" class="button-primary">Импортировать</button> <!-- Кнопка отправки формы -->
+            </form>
+        </div>
+        <!-- Форма для загрузки преподавателей -->
+        <div class="form-container admin-form">
+            <h3>Загрузить преподавателей</h3>
+            <!-- Форма для загрузки файла с преподавателями -->
+            <form action="/admin/upload/teachers" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="token" value="{{ token }}"> <!-- Скрытое поле для JWT-токена -->
+                <div class="form-group">
+                    <label for="teachers-file">Файл .xlsx или .csv:</label> <!-- Поле для выбора файла -->
+                    <input type="file" id="teachers-file" name="file" accept=".xlsx, .csv" required> <!-- Поле загрузки файла -->
+                </div>
+                <button type="submit" class="button-primary">Импортировать</button> <!-- Кнопка отправки формы -->
+            </form>
+        </div>
+    </div>
+    <hr>
+
+    <!-- Секция для настроек и отчетов -->
+    <h2>Настройки и Отчеты</h2>
+    <div class="admin-actions">
+        <!-- Форма для установки дедлайна ВКР -->
+        <div class="form-container admin-form">
+            <h3>Дедлайн для ВКР</h3>
+            <!-- Форма для установки нового дедлайна -->
+            <form action="/admin/settings/vkr-deadline" method="post">
+                <input type="hidden" name="token" value="{{ token }}"> <!-- Скрытое поле для JWT-токена -->
+                <div class="form-group">
+                    <label for="deadline-date">Установить новую дату:</label> <!-- Поле для выбора даты -->
+                    <input type="date" id="deadline-date" name="deadline" required> <!-- Поле ввода даты -->
+                </div>
+                <button type="submit" class="button-primary">Сохранить</button> <!-- Кнопка отправки формы -->
+            </form>
+        </div>
+        <!-- Блок для скачивания отчета -->
+        <div class="form-container admin-form">
+            <h3>Итоговый отчет</h3>
+            <p>Скачать полный отчет о распределении тем.</p>
+            <a href="/admin/report/download?token={{ token }}" class="button-primary">Скачать отчет</a> <!-- Ссылка для скачивания отчета -->
+        </div>
+    </div>
+    <hr>
+
+    <!-- Секция для управления паролями -->
+    <h2>Управление паролями</h2>
+    <div class="admin-actions">
+        <!-- Блок для сброса паролей студентов -->
+        <div class="form-container admin-form">
+            <h3>Сброс паролей студентов</h3>
+            <p>Сгенерировать новые пароли для всех студентов и скачать файл с учетными данными.</p>
+            <!-- Ссылка для сброса паролей студентов с подтверждением -->
+            <a href="/admin/reset-passwords/students?token={{ token }}" class="button-secondary" 
+               onclick="return confirm('ВНИМАНИЕ! Пароли ВСЕХ студентов будут сброшены и заменены на новые. Вы уверены?');">
+                Сбросить и скачать (Студенты)
+            </a>
+        </div>
+        <!-- Блок для сброса паролей преподавателей -->
+        <div class="form-container admin-form">
+            <h3>Сброс паролей преподавателей</h3>
+            <p>Сгенерировать новые пароли для всех преподавателей и скачать файл.</p>
+            <!-- Ссылка для сброса паролей преподавателей с подтверждением -->
+            <a href="/admin/reset-passwords/teachers?token={{ token }}" class="button-secondary" 
+               onclick="return confirm('ВНИМАНИЕ! Пароли ВСЕХ преподавателей будут сброшены и заменены на новые. Вы уверены?');">
+                Сбросить и скачать (Преподаватели)
+            </a>
+        </div>
+    </div>
+{% endblock %}
+{% endraw %}

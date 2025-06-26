@@ -1,0 +1,31 @@
+{% raw %}
+<!-- templates/login.html -->
+{% extends "base.html" %}
+<!-- Наследуем структуру базового шаблона base.html -->
+
+{% block title %}Вход в систему{% endblock %}
+<!-- Переопределяем заголовок страницы -->
+
+{% block content %}
+    <!-- Форма для входа в систему -->
+    <div class="form-container">
+        <h2>Вход в систему</h2> <!-- Заголовок формы -->
+        {% if error_message %}
+            <!-- Отображение сообщения об ошибке, если оно передано -->
+            <div class="error-message">{{ error_message }}</div>
+        {% endif %}
+        <!-- Форма отправки данных логина -->
+        <form action="/login" method="post">
+            <div class="form-group">
+                <label for="username">Логин (email):</label> <!-- Поле для ввода логина -->
+                <input type="text" id="username" name="username" required> <!-- Текстовое поле логина -->
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль:</label> <!-- Поле для ввода пароля -->
+                <input type="password" id="password" name="password" required> <!-- Поле пароля -->
+            </div>
+            <button type="submit" class="button-primary">Войти</button> <!-- Кнопка отправки формы -->
+        </form>
+    </div>
+{% endblock %}
+{% endraw %}

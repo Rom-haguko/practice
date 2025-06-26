@@ -1,0 +1,90 @@
+{% raw %}
+<!-- templates/teacher_dashboard.html -->
+{% extends "base.html" %}
+<!-- Наследуем структуру базового шаблона base.html -->
+
+{% block title %}Панель преподавателя{% endblock %}
+<!-- Переопределяем заголовок страницы -->
+
+{% block content %}
+    <!-- Основной контент панели преподавателя -->
+    <h1>Панель управления преподавателя</h1> <!-- Заголовок панели -->
+    <!-- Приветствие с именем преподавателя -->
+    <p>Здравствуйте, <strong>{{ current_user.full_name }}</strong>!</p>
+    <!-- Информационный блок с дедлайном для ВКР -->
+    <div class="info-box"><strong>Дедлайн для ВКР:</strong> <strong>{{ vkr_deadline }}</strong>.</div>
+    <!-- Кнопка для перехода к созданию новой темы -->
+    <a href="/topics/create?token={{ token }}" class="button-primary">Создать новую тему</a>
+    <hr>
+
+    <!-- Секция со списком тем преподавателя -->
+    <h2>Список ваших тем</h2>
+    <div class="topics-list">
+        {% for topic in topics %}
+            <!-- Карточка темы, с классом my-topic, если тема закреплена за студентом -->
+            <div class="topic-card {% if topic.student_id %}my-topic{% endif %}">
+                <h3>{{ topic.title }}</h3> <!-- Название темы -->
+                <p><strong>Тип:</strong> {{ topic.work_type }}</p> <!-- Тип работы -->
+                <!-- Статус темы (свободна или закреплена) -->
+                <p><strong>Статус:</strong> 
+                    {% if topic.student %}
+                        <span class="status-taken">Закреплена</span>
+                    {% else %}
+                        <span class="status-free">Свободна</span>
+                    {% endif %}
+                </p>
+                <!-- Контейнер для кнопки редактирования -->
+                <div class="edit-button-container">
+                    <a href="/teacher/edit-topic/{{ topic.id }}?token={{ token }}" class="button-edit">Редактировать тему</a> <!-- Ссылка на страницу редактирования -->
+                </div>
+                {% if topic.student %}
+                    <!-- Информация о студенте, если тема закреплена -->
+                    <div class="student-info">
+                        <strong>Студент:</strong> {{ topic.student.user.full_name }} ({{ topic.student.group }}) <!-- Имя и группа студента -->
+                        <!-- Статус заявки на тему -->
+                        <p><strong>Статус заявки:</strong> 
+                            {% if topic.is_approved %}
+                                <span class="status-approved">Утверждена</span>
+                            {% else %}
+                                <span class="status-pending">Ожидает утверждения</span>
+                            {% endif %}
+                        </p>
+                        <!-- Блок с кнопками действий -->
+                        <div class="action-buttons">
+                            {% if not topic.is_approved %}
+                                <!-- Форма для утверждения темы -->
+                                <form action="/teacher/approve-topic/{{ topic.id }}" method="post" style="display: inline;">
+                                    <input type="hidden" name="token" value="{{ token }}"> <!-- Скрытое поле для JWT-токена -->
+                                    <button type="submit" class="button-primary">Утвердить</button> <!-- Кнопка утверждения темы -->
+                                </form>
+                            {% else %}
+                                <!-- Форма для снятия утверждения -->
+                                <form action="/teacher/unapprove-topic/{{ topic.id }}" method="post" style="display: inline;">
+                                    <input type="hidden" name="token" value="{{ token }}"> <!-- Скрытое поле для JWT-токена -->
+                                    <!-- Кнопка отключается, если дедлайн прошёл -->
+                                    <button type="submit" class="button-secondary" 
+                                        {% if topic.deadline_is_passed %}disabled title="Дедлайн для изменения ВКР прошел"{% endif %}>
+                                        Снять утверждение
+                                    </button>
+                                </form>
+                            {% endif %}
+                            <!-- Форма для отклонения темы -->
+                            <form action="/teacher/reject-topic/{{ topic.id }}" method="post" 
+                                  onsubmit="return confirm('Вы уверены? Студент будет отписан от темы.');" style="display: inline;">
+                                <input type="hidden" name="token" value="{{ token }}"> <!-- Скрытое поле для JWT-токена -->
+                                <!-- Кнопка отключается, если дедлайн прошёл -->
+                                <button type="submit" class="button-danger" 
+                                    {% if topic.deadline_is_passed %}disabled title="Дедлайн для изменения ВКР прошел"{% endif %}>
+                                    Отклонить
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <!-- Сообщение, если у преподавателя нет тем -->
+        {% if not topics %}<p>Вы еще не создали ни одной темы.</p>{% endif %}
+    </div>
+{% endblock %}
+{% endraw %}

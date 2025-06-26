@@ -1,1 +1,319 @@
 
+/* static/styles.css */
+
+/* --- Общие стили для body и html --- */
+body, html {
+    margin: 0; /* Убираем отступы по умолчанию */
+    padding: 0; /* Убираем внутренние отступы */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Современный стек шрифтов */
+    background-color: #f4f7f6; /* Светлый фон страницы */
+    color: #333; /* Основной цвет текста */
+    display: flex; /* Используем flex для вертикальной компоновки */
+    flex-direction: column; /* Вертикальное расположение элементов */
+    min-height: 100vh; /* Минимальная высота равна высоте окна браузера */
+}
+
+/* --- Контейнер для центрирования контента --- */
+.container {
+    width: 90%; /* Ширина контейнера 90% от родителя */
+    max-width: 1200px; /* Максимальная ширина контейнера */
+    margin: 0 auto; /* Центрирование по горизонтали */
+}
+
+/* --- Шапка сайта (Header) --- */
+.main-header {
+    background-color: #ffffff; /* Белый фон шапки */
+    padding: 15px 0; /* Отступы сверху и снизу */
+    border-bottom: 1px solid #e0e0e0; /* Тонкая граница снизу */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Лёгкая тень для глубины */
+}
+
+.main-header .container {
+    display: flex; /* Flex-контейнер для элементов шапки */
+    justify-content: space-between; /* Распределяем элементы по краям */
+    align-items: center; /* Выравнивание по центру по вертикали */
+}
+
+.logo {
+    font-size: 1.5em; /* Размер шрифта логотипа */
+    font-weight: 700; /* Жирный шрифт */
+    color: #333; /* Цвет текста логотипа */
+    text-decoration: none; /* Убираем подчёркивание */
+}
+
+nav a {
+    color: #555; /* Цвет ссылок в навигации */
+    text-decoration: none; /* Убираем подчёркивание */
+    margin-left: 20px; /* Отступ между ссылками */
+    font-weight: 500; /* Средняя толщина шрифта */
+    transition: color 0.2s; /* Плавное изменение цвета при наведении */
+}
+
+nav a:hover {
+    color: #007bff; /* Синий цвет при наведении */
+}
+
+nav span {
+    margin-left: 20px; /* Отступ для текста в навигации */
+    color: #777; /* Серый цвет текста */
+}
+
+.button-login {
+    background-color: #007bff; /* Синий фон кнопки входа */
+    color: white; /* Белый текст */
+    padding: 8px 15px; /* Внутренние отступы */
+    border-radius: 5px; /* Скруглённые углы */
+}
+
+.button-logout {
+    background-color: #dc3545; /* Красный фон кнопки выхода */
+    color: white; /* Белый текст */
+    padding: 8px 15px; /* Внутренние отступы */
+    border-radius: 5px; /* Скруглённые углы */
+}
+
+/* --- Основной контент (Main) --- */
+main.container {
+    flex-grow: 1; /* Занимает всё доступное пространство по вертикали */
+    padding-top: 30px; /* Отступ сверху */
+    padding-bottom: 30px; /* Отступ снизу */
+}
+
+/* --- Стили для домашней страницы --- */
+.hero {
+    text-align: center; /* Центрирование текста */
+    padding: 60px 20px; /* Внутренние отступы */
+    background-color: #ffffff; /* Белый фон */
+    border-radius: 8px; /* Скруглённые углы */
+}
+
+.hero h1 {
+    font-size: 2.5em; /* Размер заголовка */
+    margin-bottom: 20px; /* Отступ снизу */
+}
+
+.hero p {
+    font-size: 1.2em; /* Размер текста параграфа */
+    color: #666; /* Серый цвет текста */
+    max-width: 600px; /* Максимальная ширина текста */
+    margin: 0 auto 30px auto; /* Центрирование и отступ снизу */
+}
+
+/* --- Общие стили для кнопок --- */
+.button-primary {
+    display: inline-block; /* Инлайн-блок для корректного отображения */
+    padding: 12px 25px; /* Внутренние отступы */
+    background-color: #007bff; /* Синий фон */
+    color: white; /* Белый текст */
+    border: none; /* Без границы */
+    border-radius: 5px; /* Скруглённые углы */
+    cursor: pointer; /* Курсор указателя */
+    font-size: 1em; /* Размер шрифта */
+    font-weight: 600; /* Жирный шрифт */
+    text-decoration: none; /* Убираем подчёркивание */
+    transition: background-color 0.2s; /* Плавное изменение фона при наведении */
+}
+
+.button-primary:hover {
+    background-color: #0056b3; /* Более тёмный синий при наведении */
+}
+
+/* --- Стили для форм (логин и другие) --- */
+.form-container {
+    max-width: 450px; /* Максимальная ширина формы */
+    margin: 40px auto; /* Центрирование и отступы */
+    padding: 30px; /* Внутренние отступы */
+    background-color: #ffffff; /* Белый фон */
+    border-radius: 8px; /* Скруглённые углы */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Тень для глубины */
+}
+
+.form-container h2 {
+    text-align: center; /* Центрирование заголовка */
+    margin-bottom: 25px; /* Отступ снизу */
+    color: #333; /* Тёмный цвет текста */
+    font-weight: 600; /* Жирный шрифт */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Отступ между полями формы */
+}
+
+.form-group label {
+    display: block; /* Лейбл на отдельной строке */
+    margin-bottom: 8px; /* Отступ снизу */
+    font-weight: 500; /* Средняя толщина шрифта */
+    color: #555; /* Серый цвет текста */
+}
+
+.form-group input {
+    width: 100%; /* Полная ширина поля ввода */
+    padding: 12px; /* Внутренние отступы */
+    border: 1px solid #ccc; /* Серая граница */
+    border-radius: 4px; /* Скруглённые углы */
+    box-sizing: border-box; /* Учитываем padding в ширине */
+    font-size: 1em; /* Размер шрифта */
+}
+
+/* --- Стили для сообщения об ошибке --- */
+.error-message {
+    background-color: #f8d7da; /* Светло-красный фон */
+    color: #721c24; /* Тёмно-красный текст */
+    padding: 12px; /* Внутренние отступы */
+    border: 1px solid #f5c6cb; /* Граница */
+    border-radius: 5px; /* Скруглённые углы */
+    margin-bottom: 20px; /* Отступ снизу */
+    text-align: center; /* Центрирование текста */
+}
+
+/* --- Подвал (Footer) --- */
+.main-footer {
+    background-color: #343a40; /* Тёмный фон подвала */
+    color: #f8f9fa; /* Светлый текст */
+    text-align: center; /* Центрирование текста */
+    padding: 20px 0; /* Внутренние отступы */
+    margin-top: auto; /* Прижимает подвал к низу страницы */
+}
+
+/* --- Стили для дашбордов --- */
+hr {
+    border: none; /* Убираем стандартную границу */
+    border-top: 1px solid #eee; /* Тонкая линия сверху */
+    margin: 40px 0; /* Отступы сверху и снизу */
+}
+
+.topics-list {
+    display: grid; /* Сетка для списка тем */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Адаптивные колонки */
+    gap: 20px; /* Отступы между карточками */
+}
+
+.topic-card {
+    background: #fff; /* Белый фон карточки */
+    border: 1px solid #e0e0e0; /* Тонкая граница */
+    border-radius: 8px; /* Скруглённые углы */
+    padding: 20px; /* Внутренние отступы */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Лёгкая тень */
+}
+
+.topic-card h3 {
+    margin-top: 0; /* Убираем верхний отступ для заголовка */
+}
+
+.topic-card.my-topic {
+    border-left: 5px solid #007bff; /* Синяя полоса для текущей темы пользователя */
+}
+
+.status-approved {
+    color: #28a745; /* Зелёный цвет для утверждённых тем */
+    font-weight: bold; /* Жирный шрифт */
+}
+
+.status-pending {
+    color: #ffc107; /* Жёлтый цвет для тем на рассмотрении */
+    font-weight: bold; /* Жирный шрифт */
+}
+
+.button-danger {
+    background-color: #dc3545; /* Красный фон кнопки */
+    color: white; /* Белый текст */
+    padding: 10px 15px; /* Внутренние отступы */
+    border: none; /* Без границы */
+    border-radius: 5px; /* Скруглённые углы */
+    cursor: pointer; /* Курсор указателя */
+}
+
+.button-danger:disabled, .button-primary:disabled {
+    background-color: #ccc; /* Серый фон для неактивных кнопок */
+    cursor: not-allowed; /* Курсор "запрещено" */
+}
+
+form {
+    margin-top: 15px; /* Отступ сверху для форм */
+}
+
+/* --- Дополнительные стили для статусов и действий --- */
+.status-taken {
+    color: #ff8c00; /* Оранжевый цвет для занятых тем */
+    font-weight: bold; /* Жирный шрифт */
+}
+
+.status-free {
+    color: #28a745; /* Зелёный цвет для свободных тем */
+    font-weight: bold; /* Жирный шрифт */
+}
+
+.student-info {
+    border-top: 1px solid #eee; /* Тонкая линия сверху */
+    margin-top: 15px; /* Отступ сверху */
+    padding-top: 15px; /* Внутренний отступ сверху */
+}
+
+.action-buttons {
+    margin-top: 10px; /* Отступ сверху для кнопок действий */
+}
+
+.button-secondary {
+    background-color: #6c757d; /* Серый фон для вторичных кнопок */
+    color: white; /* Белый текст */
+    padding: 10px 15px; /* Внутренние отступы */
+    border-radius: 5px; /* Скруглённые углы */
+    text-decoration: none; /* Убираем подчёркивание */
+    display: inline-block; /* Инлайн-блок для корректного отображения */
+    border: none; /* Без границы */
+    cursor: pointer; /* Курсор указателя */
+}
+
+form a.button-secondary {
+    margin-left: 10px; /* Отступ слева для вторичных кнопок в формах */
+}
+
+/* --- Стили для админских действий --- */
+.admin-actions {
+    display: grid; /* Сетка для админских действий */
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Адаптивные колонки */
+    gap: 30px; /* Отступы между элементами */
+}
+
+.form-container.admin-form {
+    margin: 0; /* Убираем авто-отступы для форм в сетке */
+}
+
+.success-message {
+    background-color: #d4edda; /* Светло-зелёный фон для сообщений об успехе */
+    color: #155724; /* Тёмно-зелёный текст */
+    padding: 12px; /* Внутренние отступы */
+    border: 1px solid #c3e6cb; /* Граница */
+    border-radius: 5px; /* Скруглённые углы */
+    margin-bottom: 20px; /* Отступ снизу */
+    text-align: center; /* Центрирование текста */
+}
+
+.info-box {
+    background-color: #fff3cd; /* Светло-жёлтый фон для информационных блоков */
+    color: #856404; /* Тёмно-жёлтый текст */
+    padding: 15px; /* Внутренние отступы */
+    border: 1px solid #ffeeba; /* Граница */
+    border-radius: 5px; /* Скруглённые углы */
+    margin: 0 0 25px 0; /* Отступы: 0 сверху, 0 справа, 25px снизу, 0 слева */
+}
+
+.edit-button-container {
+    margin-top: 15px; /* Отступ сверху */
+    padding-top: 15px; /* Внутренний отступ сверху */
+    border-top: 1px solid #eee; /* Тонкая линия сверху */
+}
+
+.button-edit {
+    display: inline-block; /* Инлайн-блок для корректного отображения */
+    padding: 8px 12px; /* Внутренние отступы */
+    font-size: 0.9em; /* Уменьшенный размер шрифта */
+    background-color: #6c757d; /* Серый фон */
+    color: white; /* Белый текст */
+    text-decoration: none; /* Убираем подчёркивание */
+    border-radius: 4px; /* Скруглённые углы */
+}
+
+.button-edit:hover {
+    background-color: #5a6268; /* Более тёмный серый при наведении */
+}

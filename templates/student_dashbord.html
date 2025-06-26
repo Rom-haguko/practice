@@ -1,0 +1,74 @@
+{% raw %}
+<!-- templates/student_dashboard.html -->
+{% extends "base.html" %}
+<!-- Наследуем структуру базового шаблона base.html -->
+
+{% block title %}Панель студента{% endblock %}
+<!-- Переопределяем заголовок страницы -->
+
+{% block content %}
+    <!-- Основной контент панели студента -->
+    <h1>Личный кабинет студента</h1> <!-- Заголовок панели -->
+    <!-- Приветствие с именем и группой студента -->
+    <p>Добро пожаловать, <strong>{{ current_user.full_name }}</strong> (Группа: {{ current_user.student_profile.group }})!</p>
+    <!-- Информационный блок с дедлайном для ВКР -->
+    <div class="info-box"><strong>Дедлайн для ВКР:</strong> <strong>{{ vkr_deadline }}</strong>.</div>
+    <hr>
+
+    <!-- Секция для отображения текущей темы студента -->
+    <h2>Ваша выбранная тема</h2>
+    {% if my_topic %}
+        <!-- Карточка с информацией о выбранной теме -->
+        <div class="topic-card my-topic">
+            <h3>{{ my_topic.title }}</h3> <!-- Название темы -->
+            <p><strong>Руководитель:</strong> {{ my_topic.teacher.full_name }}</p> <!-- Имя преподавателя -->
+            <p><strong>Описание:</strong> {{ my_topic.description or 'Нет описания' }}</p> <!-- Описание темы -->
+            <p><strong>Тип работы:</strong> {{ my_topic.work_type }}</p> <!-- Тип работы -->
+            <!-- Статус темы -->
+            <p><strong>Статус:</strong> 
+                {% if my_topic.is_approved %}
+                    <span class="status-approved">Утверждена</span>
+                {% else %}
+                    <span class="status-pending">Ожидает утверждения</span>
+                {% endif %}
+            </p>
+            <!-- Форма для отписки от темы -->
+            <form action="/student/unassign-topic" method="post" onsubmit="return confirm('Вы уверены, что хотите отписаться от темы?');">
+                <input type="hidden" name="token" value="{{ token }}"> <!-- Скрытое поле для JWT-токена -->
+                <button type="submit" class="button-danger" 
+                    {% if my_topic.is_approved %}disabled title="Нельзя отписаться от утвержденной темы"{% endif %}>
+                    Отписаться
+                </button> <!-- Кнопка отписки, отключена для утверждённых тем -->
+            </form>
+        </div>
+    {% else %}
+        <!-- Сообщение, если тема не выбрана -->
+        <p>Вы еще не выбрали тему. Выберите одну из списка ниже.</p>
+    {% endif %}
+    <hr>
+
+    <!-- Секция со списком доступных тем -->
+    <h2>Список доступных тем</h2>
+    <div class="topics-list">
+        {% for topic in all_topics %}
+            {% if not topic.student %}
+                <!-- Карточка для доступной темы (без назначенного студента) -->
+                <div class="topic-card">
+                    <h3>{{ topic.title }}</h3> <!-- Название темы -->
+                    <p><strong>Руководитель:</strong> {{ topic.teacher.full_name }}</p> <!-- Имя преподавателя -->
+                    <p><strong>Тип работы:</strong> {{ topic.work_type }}</p> <!-- Тип работы -->
+                    <p>{{ topic.description or 'Нет описания' }}</p> <!-- Описание темы -->
+                    <!-- Форма для выбора темы -->
+                    <form action="/student/assign-topic/{{ topic.id }}" method="post">
+                        <input type="hidden" name="token" value="{{ token }}"> <!-- Скрытое поле для JWT-токена -->
+                        <button type="submit" class="button-primary" 
+                            {% if my_topic %}disabled title="Сначала отпишитесь от своей текущей темы"{% endif %}>
+                            Выбрать эту тему
+                        </button> <!-- Кнопка выбора темы, отключена, если у студента уже есть тема -->
+                    </form>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
+{% endraw %}

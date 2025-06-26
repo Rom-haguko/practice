@@ -1,1 +1,67 @@
+{% raw %}
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <!-- Мета-теги и заголовок -->
+    <meta charset="UTF-8"> <!-- Кодировка страницы -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Адаптивность для мобильных устройств -->
+    <title>{% block title %}Система тем{% endblock %}</title> <!-- Заголовок страницы, переопределяемый в дочерних шаблонах -->
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}"> <!-- Подключение CSS-стилей -->
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="main-header">
+        <div class="container">
+            <a href="/" class="logo">Система Назначения Тем</a> <!-- Логотип с ссылкой на главную страницу -->
+            <nav>
+                {% if current_user %}
+                    <!-- Навигация для авторизованного пользователя -->
+                    <a href="/dashboard?token={{ token }}">Панель управления</a>
+                    <span>| {{ current_user.full_name }} ({{ current_user.role }})</span> <!-- Информация о пользователе -->
+                    <a href="/logout" class="button-logout">Выйти</a> <!-- Кнопка выхода -->
+                {% else %}
+                    <!-- Навигация для неавторизованного пользователя -->
+                    <a href="/login" class="button-login">Войти</a> <!-- Кнопка входа -->
+                {% endif %}
+            </nav>
+        </div>
+    </header>
 
+    <!-- Основной контент -->
+    <main class="container">
+        <!-- Блок для сообщений об ошибках и успехах -->
+        {% block messages %}
+            {% if request.query_params.get('error') %}
+                <!-- Сообщения об ошибках -->
+                <div class="error-message">
+                    {% if request.query_params.get('error') == 'already_assigned' %}Вы уже записаны на другую тему.{% endif %}
+                    {% if request.query_params.get('error') == 'topic_taken' %}Не удалось записаться: эта тема уже занята.{% endif %}
+                    {% if request.query_params.get('error') == 'deadline_passed' %}Действие не выполнено: дедлайн уже прошел.{% endif %}
+                    {% if request.query_params.get('error') == 'no_topic' %}У вас нет выбранной темы.{% endif %}
+                    {% if request.query_params.get('error') == 'approved' %}Нельзя отписаться от утвержденной темы.{% endif %}
+                    {% if request.query_params.get('error') == 'file_read_error' %}Ошибка чтения файла. Проверьте формат и колонки.{% endif %}
+                </div>
+            {% endif %}
+            {% if request.query_params.get('success') %}
+                <!-- Сообщения об успехе -->
+                <div class="success-message">
+                    {% if request.query_params.get('success') == 'students_uploaded' %}Файл со студентами успешно обработан.{% endif %}
+                    {% if request.query_params.get('success') == 'teachers_uploaded' %}Файл с преподавателями успешно обработан.{% endif %}
+                    {% if request.query_params.get('success') == 'deadline_set' %}Дедлайн успешно установлен.{% endif %}
+                </div>
+            {% endif %}
+        {% endblock %}
+        <!-- Блок для основного содержимого, переопределяемый в дочерних шаблонах -->
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Подвал сайта -->
+    <footer class="main-footer">
+        <div class="container">
+            <p>©Все права защищены 2025-2026 ИГУ</p> <!-- Текст копирайта -->
+        </div>
+    </footer>
+</body>
+</html>
+{% endraw %}

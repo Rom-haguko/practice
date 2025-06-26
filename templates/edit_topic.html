@@ -1,0 +1,52 @@
+{% raw %}
+<!-- templates/edit_topic.html -->
+{% extends "base.html" %}
+<!-- Наследуем структуру базового шаблона base.html -->
+
+{% block title %}Редактирование темы{% endblock %}
+<!-- Переопределяем заголовок страницы -->
+
+{% block content %}
+    <!-- Форма для редактирования темы -->
+    <div class="form-container">
+        <h2>Редактирование темы</h2> <!-- Заголовок формы -->
+
+        <!-- Форма отправки данных для обновления темы -->
+        <form action="/teacher/edit-topic/{{ topic.id }}" method="post">
+            <!-- Скрытое поле для передачи JWT-токена -->
+            <input type="hidden" name="token" value="{{ token }}">
+
+            <div class="form-group">
+                <label for="title">Название темы:</label> <!-- Поле для ввода названия темы -->
+                <!-- Предзаполняем поле текущим названием темы -->
+                <input type="text" id="title" name="title" value="{{ topic.title }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Описание:</label> <!-- Поле для ввода описания -->
+                <!-- Предзаполняем поле текущим описанием, если оно есть -->
+                <textarea id="description" name="description" rows="5">{{ topic.description or '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="work_type">Тип работы:</label> <!-- Поле для выбора типа работы -->
+                <select id="work_type" name="work_type" required>
+                    <!-- Динамически выбираем текущий тип работы -->
+                    <option value="coursework" {% if topic.work_type == 'coursework' %}selected{% endif %}>
+                        Курсовая работа
+                    </option>
+                    <option value="vkr" {% if topic.work_type == 'vkr' %}selected{% endif %}>
+                        ВКР
+                    </option>
+                    <option value="vkr/coursework" {% if topic.work_type == 'vkr/coursework' %}selected{% endif %}>
+                        ВКР / Курсовая работа
+                    </option>
+                </select>
+            </div>
+
+            <button type="submit" class="button-primary">Сохранить изменения</button> <!-- Кнопка отправки формы -->
+            <a href="/dashboard?token={{ token }}" class="button-secondary">Отмена</a> <!-- Кнопка отмены с возвратом на дашборд -->
+        </form>
+    </div>
+{% endblock %}
+{% endraw %}
